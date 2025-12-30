@@ -2,6 +2,8 @@
 
 A Blender add-on that provides real-time distance measurements between selected vertices in the 3D view, using GPU-accelerated screen-space text overlays inspired by CAD Sketcher.
 
+![Screenshot](Screenshot.png)
+
 ## Features
 
 - **Real-time Distance Display**: Shows distances between selected vertices as text overlays in the 3D view.
