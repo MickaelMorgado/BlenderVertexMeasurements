@@ -624,7 +624,7 @@ class VIEW3D_OT_toggle_world_distances(bpy.types.Operator):
         if not _gpu_pairs:
             self.report(
                 {'WARNING'},
-                "No usable mesh vertices found; select a mesh or lock a selection."
+                "No distance pairs found. Check: mesh selection, vertex selection in Edit mode, locked selection, or increase 'Max Distance (mm)' threshold."
             )
             return {'CANCELLED'}
 
