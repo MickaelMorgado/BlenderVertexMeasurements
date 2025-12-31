@@ -3,7 +3,7 @@ bl_info = {
     "author": "ChatGPT - CAD Sketcher Inspired Text Display",
     "version": (17, 0),
     "blender": (4, 4, 0),
-    "location": "View3D > Sidebar (N) > Overlay Test",
+    "location": "View3D > Sidebar (N) > Blender Vertex Measurments",
     "description": "Realtime distances with GPU lines + CAD Sketcher inspired screen-space text",
     "category": "3D View",
 }
@@ -657,7 +657,7 @@ class VIEW3D_PT_world_distances(bpy.types.Panel):
     bl_idname = "VIEW3D_PT_world_distances"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = "Overlay Test"
+    bl_category = "Blender Vertex Measurments"
 
     def draw(self, context):
         layout = self.layout
