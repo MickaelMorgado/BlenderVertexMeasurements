@@ -16,6 +16,7 @@ import bmesh
 import json
 import blf
 from bpy_extras import view3d_utils
+import bpy.utils.units
 
 _gpu_pairs = []          # list[(va, vb, dist)]
 _draw_handler = None
@@ -217,9 +218,11 @@ def collect_vertex_pairs(max_mm, max_vertices, max_pairs, neighbor_depth,
             for j in range(i + 1, n):
                 a = verts_global[i]
                 b = verts_global[j]
-                d = (a - b).length
-                if d <= max_mm:
-                    pairs.append((a, b, d))
+                d_bu = (a - b).length
+                scale_length = bpy.context.scene.unit_settings.scale_length
+                d_mm = d_bu / scale_length  # Convert to scene units (mm)
+                if d_mm <= max_mm:
+                    pairs.append((a, b, d_mm))
 
     # 2) adjacency: walk BMVert.link_edges per mesh (for edit/locked sets)
     if neighbor_depth > 0 and per_obj_edit:
@@ -242,9 +245,11 @@ def collect_vertex_pairs(max_mm, max_vertices, max_pairs, neighbor_depth,
 
                             a = world_co
                             b = mat @ other.co
-                            d = (a - b).length
-                            if d <= max_mm:
-                                pairs.append((a, b, d))
+                            d_bu = (a - b).length
+                            scale_length = bpy.context.scene.unit_settings.scale_length
+                            d_mm = d_bu / scale_length  # Convert to scene units (mm)
+                            if d_mm <= max_mm:
+                                pairs.append((a, b, d_mm))
                     frontier = next_frontier
                     if not frontier:
                         break
@@ -492,8 +497,8 @@ def draw_callback_gpu():
 
 class DistanceSettings(bpy.types.PropertyGroup):
     max_mm: bpy.props.FloatProperty(
-        name="Max Distance (mm)",
-        description="Only pairs with distance <= this value (assuming 1 BU = 1 mm)",
+        name="Max Distance",
+        description="Only pairs with distance <= this value (in scene units)",
         default=100.0,
         min=0.01,
         max=10000.0,
@@ -624,7 +629,7 @@ class VIEW3D_OT_toggle_world_distances(bpy.types.Operator):
         if not _gpu_pairs:
             self.report(
                 {'WARNING'},
-                "No distance pairs found. Check: mesh selection, vertex selection in Edit mode, locked selection, or increase 'Max Distance (mm)' threshold."
+                "No distance pairs found. Check: mesh selection, vertex selection in Edit mode, locked selection, or increase 'Max Distance' threshold."
             )
             return {'CANCELLED'}
 
