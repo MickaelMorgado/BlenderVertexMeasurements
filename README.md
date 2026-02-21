@@ -1,4 +1,6 @@
-# Blender Vertex Measurements
+# Blender Vertex Measurements (CONCEPT STATE)
+
+This is a concept, you can try just for curiosity or interest.
 
 A Blender add-on that provides real-time distance measurements between selected vertices in the 3D view, using GPU-accelerated screen-space text overlays inspired by CAD Sketcher.
 
